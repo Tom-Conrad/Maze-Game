@@ -1,0 +1,83 @@
+﻿@model MazeApplication.Models.Room
+
+@{
+    ViewBag.Title = "Maze";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int id = ViewBag.Id;
+}
+
+<h1>@Model.Header</h1>
+
+<h2>@Model.Description</h2>
+
+@if (Model.AlreadySeen == true)
+{
+    <br />
+    <h3>This place seems familiar</h3>
+}
+
+@if (Model.AlreadySeen == false && Model.ScoreModifier != 0)
+{
+    <br />
+    <h3>@Model.ScoreDisplay</h3>
+    if (Model.ScoreModifier > 0)
+    {
+        <h3>Score +@Model.ScoreModifier</h3>
+    }
+    else if (Model.ScoreModifier < 0)
+    {
+        <h3>Score @Model.ScoreModifier</h3>
+    }
+}
+
+@if (ViewBag.SpecialText != null)
+{
+    <br />
+    <h3>@ViewBag.SpecialText</h3>
+}
+
+<br />
+
+@foreach (var l in Model.AccessibleLocations)
+{
+    if (l.RequireConfirmation)
+    {
+        using (Html.BeginForm("Danger", "Maze"))
+        {
+            @Html.Hidden("type", l.Type);
+            @Html.Hidden("previousLocation", Model.Name);
+            @Html.Hidden("inputRoom", l.Name);
+            @Html.Hidden("id", id);
+            <input type="submit" class="btn btn-danger" style="float:left" value="@l.Title" />
+        }
+    }
+    else
+    {
+        using (Html.BeginForm(l.Type, "Maze"))
+        {
+            @Html.Hidden("previousLocation", Model.Name);
+            @Html.Hidden("inputRoom", l.Name);
+            @Html.Hidden("id", id);
+            <input type="submit" class="btn btn-primary" style="float:left" value="@l.Title" />
+        }
+    }
+}
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<h2>Menus</h2>
+
+@using (Html.BeginForm("CharacterInfo", "Maze"))
+{
+    @Html.Hidden("currentRoom", Model.Name);
+    @Html.Hidden("id", id);
+    <input type="submit" class="btn btn-success" value="Character Information" />
+}

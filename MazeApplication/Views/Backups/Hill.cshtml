@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Entrance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Hill</h2>
+<h3>At the top of the hill is a well, and another fork in the path</h3>
+
+@using (Html.BeginForm("Well", "Maze"))
+{
+    <input type="submit" class="btn btn-primary" style="float:left" value="Climb Down Well" />
+}
+
+@using (Html.BeginForm("LeftHill", "Maze")) {
+    <input type="submit" class="btn btn-primary" style="float:left" value="Turn Left"/>
+}
+
+@using (Html.BeginForm("RightHill", "Maze"))
+{
+    <input type="submit" class="btn btn-primary" style="float:left" value="Turn Right" />
+}
+
+@using (Html.BeginForm("LeftFork", "Maze"))
+{
+    <input type="submit" class="btn btn-primary" style="float:left" value="Turn Back" />
+}

@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Entrance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Well</h2>
+<h3>There is water of indeterminate depth at the bottom of the well.</h3>
+
+@using (Html.BeginForm("SwimDown", "Maze"))
+{
+    <input type="submit" class="btn btn-primary" style="float:left" value="Swim Down" />
+}
+
+@using (Html.BeginForm("Hill", "Maze"))
+{
+    <input type="submit" class="btn btn-primary" style="float:left" value="Climb Back Up" />
+}

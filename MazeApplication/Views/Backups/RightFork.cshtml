@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Entrance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Right Fork</h2>
+<h3>You see another fork in the road.</h3>
+
+@using (Html.BeginForm("RightForkStep", "Maze"))
+{
+    @Html.Hidden("NumOfSteps", "0")
+    <input type="submit" class="btn btn-primary" style="float:left" value="Turn Left"/>
+}
+
+@using (Html.BeginForm("RightForkStep", "Maze"))
+{
+    @Html.Hidden("NumOfSteps", "0")
+    <input type="submit" class="btn btn-primary" style="float:left" value="Turn Right" />
+}
+
+@using (Html.BeginForm("Entrance", "Maze"))
+{
+    @Html.Hidden("IsFamiliar", "true")
+    <input type="submit" class="btn btn-primary" style="float:left" value="Turn Back" />
+}

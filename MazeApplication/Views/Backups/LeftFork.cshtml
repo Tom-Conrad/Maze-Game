@@ -1,0 +1,33 @@
+﻿@model MazeApplication.Models.Player
+
+@{
+    ViewBag.Title = "Entrance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Left Road</h2>
+<h3>You see a fork in the road, one side leading to a hill, the other to a valley.</h3>
+@if (Model.VisitedLocations.Contains("leftfork") == true)
+{
+    <h3>This place seems familiar</h3>
+}
+
+@using (Html.BeginForm("Hill", "Maze")) {
+    @Html.Hidden("PreviousLocation", "leftfork");
+    @Html.HiddenFor(m => m.Id);
+    <input type="submit" class="btn btn-primary" style="float:left" value="Go to the Hill"/>
+}
+
+@using (Html.BeginForm("Valley", "Maze"))
+{
+    @Html.Hidden("PreviousLocation", "leftfork");
+    @Html.HiddenFor(m => m.Id);
+    <input type="submit" class="btn btn-primary" style="float:left" value="Go to the Valley" />
+}
+
+@using (Html.BeginForm("Entrance", "Maze"))
+{
+    @Html.Hidden("PreviousLocation", "leftfork");
+    @Html.HiddenFor(m => m.Id);
+    <input type="submit" class="btn btn-primary" style="float:left" value="Go Back" />
+}

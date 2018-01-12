@@ -1,0 +1,18 @@
+﻿@model MazeApplication.Models.FinishRoom
+
+@{
+    ViewBag.Title = "Maze";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Header</h2>
+@{
+    if (Model.Score == 0)
+    {
+        <h2>You Lose</h2>
+    }
+    else
+    {
+        <h2>Your score was @Model.Score</h2>
+    }
+}

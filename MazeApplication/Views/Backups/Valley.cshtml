@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Entrance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Valley</h2>
+<h3>There is a hole in the ground</h3>
+
+@using (Html.BeginForm("Hole", "Maze"))
+{
+    <input type="submit" class="btn btn-primary" style="float:left" value="Descend Hole" />
+}
+
+@using (Html.BeginForm("LeftFork", "Maze"))
+{
+    <input type="submit" class="btn btn-primary" style="float:left" value="Turn Back" />
+}

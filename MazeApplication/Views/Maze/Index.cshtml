@@ -1,0 +1,32 @@
+﻿@model IEnumerable<MazeApplication.Models.Player>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int averageScore = 0;
+    int numberOfWinners = 0;
+    foreach (var player in Model)
+    {
+        if (player.Score != 0)
+        {
+            averageScore += player.Score;
+            numberOfWinners++;
+        }
+    }
+    averageScore /= numberOfWinners;
+
+    int winPercentage = numberOfWinners * 100;
+    winPercentage /= Model.Count();
+}
+
+<h1>GAME TITLE</h1>
+<h4>Explanation stuff</h4>
+<h4>@winPercentage% of games are won</h4>
+<h4>The average winning score is @averageScore</h4>
+
+@using (Html.BeginForm("Maze", "Maze"))
+    {
+    @Html.Hidden("inputRoom", "Entrance");
+    <input type="submit" class="btn btn-primary" style="float:left" value="Begin" />
+    }
