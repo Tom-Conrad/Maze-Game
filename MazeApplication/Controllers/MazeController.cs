@@ -16,6 +16,28 @@ namespace MazeApplication.Controllers
             _dbContext = new ApplicationDbContext();
         }
         
+        // Methods
+
+        public Player CalculateLocation(string id, string previousLocation)
+        {
+            int idAsInt = int.Parse(id);
+
+            var player = _dbContext.Players.SingleOrDefault(p => p.Id == idAsInt);
+
+            if (player == null)
+            {
+                return null;
+            }
+
+            if (previousLocation != null && player.VisitedLocations.Contains("," + previousLocation + ",") == false)
+            {
+                player.VisitedLocations = player.VisitedLocations + previousLocation + ",";
+                _dbContext.SaveChanges();
+            }
+
+            return player;
+        }
+
         // Pregame
 
         public ActionResult Index()
@@ -24,31 +46,28 @@ namespace MazeApplication.Controllers
             return View(players);
         }
 
+        public ActionResult CharGeneration()
+        {
+            return View();
+        }
+
         // Intermediates
 
-        public ActionResult Maze(string inputRoom, string previousLocation, string id)
+        public ActionResult Maze(string charName, string inputRoom, string previousLocation, string id)
         {
             if (id == null)
             {
-                _dbContext.Players.Add(new Player() { CharName = "Duderino", VisitedLocations = "", Inventory = "", Score = 0 });
+                _dbContext.Players.Add(new Player() { CharName = charName, VisitedLocations = ",", Inventory = ",", Score = 0 });
                 _dbContext.SaveChanges();
                 id = _dbContext.Players.ToList().Last().Id.ToString();
             }
 
-            int idAsInt = int.Parse(id);
-
-            var player = _dbContext.Players.SingleOrDefault(p => p.Id == idAsInt);
+            var player = CalculateLocation(id, previousLocation);
 
             if (player == null)
             {
                 return HttpNotFound();
             }
-            if (previousLocation != null && player.VisitedLocations.Contains(previousLocation) == false)
-            {
-                player.VisitedLocations = player.VisitedLocations + "," + previousLocation;
-                _dbContext.SaveChanges();
-            }
-
 
             Room room = new Room();
             room.AccessibleLocations = new List<Location>();
@@ -105,6 +124,29 @@ namespace MazeApplication.Controllers
                     room.AccessibleLocations.Add(new Location() { Name = "LogicOrRasin", Title = "Go Back", Type = "Maze" });
                     break;
 
+                case "Rasin":
+                    room.Header = "Rasin";
+                    if (player.Inventory.Contains("," + "Rasin" + ","))
+                    {
+                        room.Description = "There is a small plinth next to the path. It is empty.";
+                        room.AccessibleLocations.Add(new Location() { Name = "ENTERLATER", Title = "Follow the Path", Type = "Maze" });
+                        room.AccessibleLocations.Add(new Location() { Name = "LogicOrRasin", Title = "Go Back", Type = "Maze" });
+                    }
+                    else
+	                {
+                        room.Description = "There is a small plinth next to the path. On top of it is an ornate box, with a very small rasin in it. There is a card in the box. It says, \"Behold the great rasin of truth! Hold it and ye shall see that which is hidden.\"";
+                        room.AccessibleLocations.Add(new Location() { Name = "ENTERLATER", Title = "Follow the Path", Type = "Maze" });
+                        room.AccessibleLocations.Add(new Location() { Name = "GetRasin", Title = "Take the Rasin", Type = "Maze" });
+                        room.AccessibleLocations.Add(new Location() { Name = "LogicOrRasin", Title = "Go Back", Type = "Maze" });
+                    }
+                    break;
+
+                case "GetRasin":
+                    room.Description = "You pick up the rasin, and put it in your pocket. Nothing appears to happen.";
+                    room.AccessibleLocations.Add(new Location() { Name = "Rasin", Title = "Continue", Type = "Maze" });
+                    room.InventoryModifier = "Rasin";
+                    break;
+
                 case "Ladder":
                     room.Header = "Ladder";
                     room.Description = "You are on a ladder.";
@@ -141,8 +183,16 @@ namespace MazeApplication.Controllers
 
                 case "Valley":
                     room.Header = "Valley";
-                    room.Description = "It's a valley";
-                    room.AccessibleLocations.Add(new Location() { Name = "LeftFork", Title = "Get Bored and Leave", Type = "Maze" });
+                    if (player.Inventory.Contains("," + "Rasin" + ","))
+                    {
+                        room.Description = "There is a metal hatch in the ground. It seems to be oddly out of focus.";
+
+                    }
+                    else
+                    {
+                        room.Description = "It's a valley";
+                        room.AccessibleLocations.Add(new Location() { Name = "LeftFork", Title = "Get Bored and Leave", Type = "Maze" });
+                    }
                     break;
 
                 case "Hill":
@@ -171,7 +221,7 @@ namespace MazeApplication.Controllers
                     }
                     else
                     {
-                        room.AccessibleLocations.Add(new Location() { Name = "Drown", Title = "Swim Down", Type = "Maze", RequireConfirmation = true });
+                        room.AccessibleLocations.Add(new Location() { Name = "Drown", Title = "Swim Down", Type = "Finish", RequireConfirmation = true });
                         room.AccessibleLocations.Add(new Location() { Name = "Well", Title = "Climb Up", Type = "Maze" });
                         ViewBag.SpecialText = "If you continue to swim downward, you will drown.";
                     }
@@ -209,7 +259,7 @@ namespace MazeApplication.Controllers
                     break;
             }
 
-            if (room.Header != null && player.VisitedLocations.Contains(room.Header) == true)
+            if (room.Header != null && player.VisitedLocations.Contains("," + room.Header + ",") == true)
             {
                 room.AlreadySeen = true;
             }
@@ -220,14 +270,20 @@ namespace MazeApplication.Controllers
                 _dbContext.SaveChanges();
             }
 
-            ViewBag.Id = idAsInt;
+            if (room.InventoryModifier != null && room.AlreadySeen == false)
+            {
+                player.Inventory += room.InventoryModifier + ",";
+                _dbContext.SaveChanges();
+            }
+
+            ViewBag.Id = player.Id;
             ModelState.Clear();
             return View(room);
         }
 
-        public ActionResult Finish(string inputRoom, int id)
+        public ActionResult Finish(string previousLocation, string inputRoom, string id)
         {
-            var player = _dbContext.Players.SingleOrDefault(p => p.Id == id);
+            var player = CalculateLocation(id, previousLocation);
 
             if (player == null)
             {
@@ -276,35 +332,36 @@ namespace MazeApplication.Controllers
             return View(finishRoom);
         }
 
-        public ActionResult Danger(string type, string inputRoom, string previousLocation, string id)
+        public ActionResult Danger(string type, string inputRoom, string previousLocation, string previousName, string id)
         {
-            Temporary Temp = new Temporary() { Type = type, InputRoom = inputRoom, PreviousLocation = previousLocation, Id = id };
-            ModelState.Clear();
-            return View(Temp);
-        }
-
-        public ActionResult CharacterInformation(string currentRoom, int id)
-        {
-            var player = _dbContext.Players.SingleOrDefault(p => p.Id == id);
+            var player = CalculateLocation(id, previousLocation);
 
             if (player == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.Id = id;
-            ViewBag.CurrentRoom = currentRoom;
-
+            Danger danger = new Danger() { Type = type, InputRoom = inputRoom, PreviousName = previousName, Id = id };
             ModelState.Clear();
-            return View(player);
+            return View(danger);
         }
-            /*
-        public ActionResult CharacterInformation(string type, string inputRoom, string previousLocation, string id)
-        {
-            Temporary Temp = new Temporary() { Type = type, InputRoom = inputRoom, PreviousLocation = previousLocation, Id = id };
-            ModelState.Clear();
-            return View(Temp);
-        }*/
 
+        public ActionResult Menu(string previousLocation, string currentRoom, string menuType, string id)
+        {
+            var player = CalculateLocation(id, previousLocation);
+
+            if (player == null)
+            {
+                return HttpNotFound();
+            }
+
+            Menu menu = new Menu();
+            menu.CurrentLocation = currentRoom;
+            menu.Player = player;
+            menu.MenuType = menuType;
+
+            ModelState.Clear();
+            return View(menu);
+        }
     }
 }

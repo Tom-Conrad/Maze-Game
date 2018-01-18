@@ -282,7 +282,8 @@
     <Content Include="Views\Maze\Finish.cshtml" />
     <Content Include="Views\Maze\Danger.cshtml" />
     <Content Include="Views\Maze\Index.cshtml" />
-    <Content Include="Views\Maze\CharacterInformation.cshtml" />
+    <Content Include="Views\Maze\Menu.cshtml" />
+    <Content Include="Views\Maze\CharGeneration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

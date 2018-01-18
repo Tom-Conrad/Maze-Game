@@ -45,7 +45,8 @@
         using (Html.BeginForm("Danger", "Maze"))
         {
             @Html.Hidden("type", l.Type);
-            @Html.Hidden("previousLocation", Model.Name);
+            @Html.Hidden("previousLocation", Model.Header);
+            @Html.Hidden("previousName", Model.Name);
             @Html.Hidden("inputRoom", l.Name);
             @Html.Hidden("id", id);
             <input type="submit" class="btn btn-danger" style="float:left" value="@l.Title" />
@@ -55,7 +56,7 @@
     {
         using (Html.BeginForm(l.Type, "Maze"))
         {
-            @Html.Hidden("previousLocation", Model.Name);
+            @Html.Hidden("previousLocation", Model.Header);
             @Html.Hidden("inputRoom", l.Name);
             @Html.Hidden("id", id);
             <input type="submit" class="btn btn-primary" style="float:left" value="@l.Title" />
@@ -75,9 +76,29 @@
 
 <h2>Menus</h2>
 
-@using (Html.BeginForm("CharacterInfo", "Maze"))
+@using (Html.BeginForm("Menu", "Maze"))
 {
+    @Html.Hidden("previousLocation", Model.Header);
     @Html.Hidden("currentRoom", Model.Name);
     @Html.Hidden("id", id);
-    <input type="submit" class="btn btn-success" value="Character Information" />
+    @Html.Hidden("menuType", "CharInfo");
+    <input type="submit" class="btn btn-success" style="float:left" value="Character Information" />
+}
+
+@using (Html.BeginForm("Menu", "Maze"))
+{
+    @Html.Hidden("previousLocation", Model.Header);
+    @Html.Hidden("currentRoom", Model.Name);
+    @Html.Hidden("id", id);
+    @Html.Hidden("menuType", "Inventory");
+    <input type="submit" class="btn btn-success" style="float:left" value="Inventory" />
+}
+
+@using (Html.BeginForm("Menu", "Maze"))
+{
+    @Html.Hidden("previousLocation", Model.Header);
+    @Html.Hidden("currentRoom", Model.Name);
+    @Html.Hidden("id", id);
+    @Html.Hidden("menuType", "VisitedLocations");
+    <input type="submit" class="btn btn-success" style="float:left" value="Visited Locations" />
 }

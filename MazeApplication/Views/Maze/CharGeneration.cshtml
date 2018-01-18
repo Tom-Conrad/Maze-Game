@@ -1,0 +1,16 @@
+﻿@model MazeApplication.Models.Player
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>What is your name?</h1>
+
+@using (Html.BeginForm("Maze", "Maze"))
+    {
+        @Html.TextBox("charName", "", new { @class = "form-control" });
+        <br />
+        @Html.Hidden("inputRoom", "Entrance");
+        <input type="submit" class="btn btn-primary" value="Begin" />
+    }

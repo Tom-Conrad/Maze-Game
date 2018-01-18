@@ -1,4 +1,4 @@
-﻿@model MazeApplication.Models.Temporary
+﻿@model MazeApplication.Models.Danger
 
 @{
     ViewBag.Title = "Maze";
@@ -9,7 +9,6 @@
 
 @using (Html.BeginForm(Model.Type, "Maze"))
 {
-    @Html.Hidden("previousLocation", Model.PreviousLocation);
     @Html.Hidden("inputRoom", Model.InputRoom);
     @Html.Hidden("id", Model.Id);
     <input type="submit" class="btn btn-danger" style="float:left" value="Continue" />
@@ -17,8 +16,7 @@
 
 @using (Html.BeginForm("Maze", "Maze"))
 {
-    @Html.Hidden("previousLocation", Model.PreviousLocation);
-    @Html.Hidden("inputRoom", Model.PreviousLocation);
+    @Html.Hidden("inputRoom", Model.PreviousName);
     @Html.Hidden("id", Model.Id);
     <input type="submit" class="btn btn-primary" style="float:left" value="Abort" />
 }

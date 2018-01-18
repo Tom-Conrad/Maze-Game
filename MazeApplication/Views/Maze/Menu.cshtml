@@ -1,0 +1,54 @@
+﻿@model MazeApplication.Models.Menu
+
+@{
+    ViewBag.Title = "Maze";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    if (Model.MenuType == "CharInfo")
+    {
+        <h1>Character Information</h1>
+
+        <br/>
+
+        <h2>Name: @Model.Player.CharName</h2>
+        <h2>Score: @Model.Player.Score</h2>
+    }
+
+    else if (Model.MenuType == "Inventory")
+    {
+        <h1>Inventory</h1>
+
+        <br />
+
+        List<string> InventoryAsList = Model.Player.Inventory.Split(',').ToList();
+
+        foreach (string s in InventoryAsList)
+        {
+            <h2>@s</h2>
+        }
+    }
+
+    else if (Model.MenuType == "VisitedLocations")
+    {
+        <h1>Visited Locations</h1>
+
+        <br />
+
+        List<string> LocationsAsList = Model.Player.VisitedLocations.Split(',').ToList();
+
+        foreach (string s in LocationsAsList)
+        {
+            <h2>@s</h2>
+        }
+    }
+}
+
+
+@using (Html.BeginForm("Maze", "Maze"))
+{
+    @Html.Hidden("inputRoom", Model.CurrentLocation);
+    @Html.Hidden("id", Model.Player.Id);
+    <input type="submit" class="btn btn-primary" value="Back to Game" />
+}
