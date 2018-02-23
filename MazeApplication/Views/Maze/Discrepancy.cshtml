@@ -1,0 +1,15 @@
+﻿@model MazeApplication.Models.Player
+
+@{
+    ViewBag.Title = "Discrepancy";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>We have detected an issue with your game. It appears that your recorded location and your actual location do not match. This was probably caused by your use of the back button of your browser.</h2>
+@using (Html.BeginForm("Maze", "Maze"))
+{
+    @Html.Hidden("inputLocation", Model.CurrentLocation);
+    @Html.Hidden("previousLocation", Model.CurrentLocation);
+    @Html.Hidden("id", Model.Id);
+    <input type="submit" class="btn btn-primary" style="float:left" value="Return to Previous Location" />
+}

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace MazeApplication.Models
 {
-    public class FinishRoom
+    public class FinishLocation
     {
         public string Name { get; set; }
 

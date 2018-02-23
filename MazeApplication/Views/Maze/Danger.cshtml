@@ -9,14 +9,14 @@
 
 @using (Html.BeginForm(Model.Type, "Maze"))
 {
-    @Html.Hidden("inputRoom", Model.InputRoom);
+    @Html.Hidden("inputLocation", Model.inputLocation);
     @Html.Hidden("id", Model.Id);
     <input type="submit" class="btn btn-danger" style="float:left" value="Continue" />
 }
 
 @using (Html.BeginForm("Maze", "Maze"))
 {
-    @Html.Hidden("inputRoom", Model.PreviousName);
+    @Html.Hidden("inputLocation", Model.PreviousLocation);
     @Html.Hidden("id", Model.Id);
     <input type="submit" class="btn btn-primary" style="float:left" value="Abort" />
 }

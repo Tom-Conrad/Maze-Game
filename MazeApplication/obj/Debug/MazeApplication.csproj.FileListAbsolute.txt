@@ -80,6 +80,5 @@ c:\users\tom\documents\visual studio 2015\Projects\MazeApplication\MazeApplicati
 c:\users\tom\documents\visual studio 2015\Projects\MazeApplication\MazeApplication\obj\Debug\MazeApplication.csprojResolveAssemblyReference.cache
 c:\users\tom\documents\visual studio 2015\Projects\MazeApplication\MazeApplication\obj\Debug\MazeApplication.dll
 c:\users\tom\documents\visual studio 2015\Projects\MazeApplication\MazeApplication\obj\Debug\MazeApplication.pdb
-C:\Users\Tom\documents\visual studio 2015\Projects\MazeApplication\MazeApplication\obj\Debug\MazeApplication.Migrations.AddedPlayer.resources
+C:\Users\Tom\documents\visual studio 2015\Projects\MazeApplication\MazeApplication\obj\Debug\MazeApplication.Migrations.InitialCreate.resources
 C:\Users\Tom\documents\visual studio 2015\Projects\MazeApplication\MazeApplication\obj\Debug\MazeApplication.csproj.GenerateResource.Cache
-C:\Users\Tom\documents\visual studio 2015\Projects\MazeApplication\MazeApplication\obj\Debug\MazeApplication.Migrations.AddedVisitedLocationsString.resources

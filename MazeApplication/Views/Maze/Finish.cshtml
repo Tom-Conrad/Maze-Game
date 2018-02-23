@@ -1,4 +1,4 @@
-﻿@model MazeApplication.Models.FinishRoom
+﻿@model MazeApplication.Models.FinishLocation
 
 @{
     ViewBag.Title = "Maze";
@@ -16,3 +16,8 @@
         <h2>Your score was @Model.Score</h2>
     }
 }
+
+@using (Html.BeginForm("Index", "Maze"))
+        {
+            <input type="submit" class="btn btn-primary" style="float:left" value="Back to Menu" />
+        }

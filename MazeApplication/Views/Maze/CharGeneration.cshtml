@@ -5,12 +5,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>What is your name?</h1>
+<h1>The Plot (or lack thereof)</h1>
+<h3>You had recently taken a spacecraft to a planet known as the Cabbage Dome. After your stay on the Dome, you were to return to your home planet. This would have worked if not for the fact that your spaceship is entirely broken. There is no easy way to get another one on the Cabbage Dome, but you have heard that there is one hidden somewhere in the region. After some investigation, you figured out more or less where it is, and are now travelling toward it's supposed location. And there might be something else worth finding around here too.</h3>
+
+<br />
+<br />
+<br />
+
+<h2>What is your name?</h2>
 
 @using (Html.BeginForm("Maze", "Maze"))
     {
         @Html.TextBox("charName", "", new { @class = "form-control" });
         <br />
-        @Html.Hidden("inputRoom", "Entrance");
+        @Html.Hidden("inputLocation", "Entrance");
         <input type="submit" class="btn btn-primary" value="Begin" />
     }

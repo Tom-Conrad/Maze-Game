@@ -36,7 +36,7 @@
 
         <br />
 
-        List<string> LocationsAsList = Model.Player.VisitedLocations.Split(',').ToList();
+        List<string> LocationsAsList = Model.Player.VisitedHeaders.Split(',').ToList();
 
         foreach (string s in LocationsAsList)
         {
@@ -48,7 +48,7 @@
 
 @using (Html.BeginForm("Maze", "Maze"))
 {
-    @Html.Hidden("inputRoom", Model.CurrentLocation);
+    @Html.Hidden("inputLocation", Model.CurrentLocation);
     @Html.Hidden("id", Model.Player.Id);
     <input type="submit" class="btn btn-primary" value="Back to Game" />
 }

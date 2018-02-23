@@ -13,7 +13,13 @@ namespace MazeApplication.Models
 
         public int Score { get; set; }
 
+        public string CurrentLocation { get; set; }
+
+        public string VisitedHeaders { get; set; }
         public string VisitedLocations { get; set; }
+
         public string Inventory { get; set; }
+
+        public bool Locked { get; set; }
     }
 }
